@@ -27,6 +27,7 @@ interface MindMapContextType {
   generateMindMap: (prompt: string, pdfFile?: File, settings?: Partial<GenerationSettings>) => Promise<void>;
   saveMindMap: () => Promise<void>;
   clearMindMap: () => void;
+  loadSavedMap: (map: MindMapData) => void;
 }
 
 const MindMapContext = createContext<MindMapContextType | undefined>(undefined);
@@ -332,6 +333,10 @@ export function MindMapProvider({ children }: { children: ReactNode }) {
     setError(null);
   };
 
+  const loadSavedMap = (map: MindMapData) => {
+    setCurrentMindMap(map);
+  };
+
   return (
     <MindMapContext.Provider value={{
       currentMindMap,
@@ -339,7 +344,8 @@ export function MindMapProvider({ children }: { children: ReactNode }) {
       error,
       generateMindMap,
       saveMindMap,
-      clearMindMap
+      clearMindMap,
+      loadSavedMap
     }}>
       {children}
     </MindMapContext.Provider>
